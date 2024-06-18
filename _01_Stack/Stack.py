@@ -59,3 +59,21 @@ class Stack:
             counter += 1
             stack_item = stack_item.next_node
         return counter
+
+    def counter_int(self):
+        counter = 0
+        stack_item = self.top
+        while stack_item:
+            if isinstance(stack_item.data, int):
+                counter += 1
+            stack_item = stack_item.next_node
+        return counter
+
+
+stack = Stack()
+stack.push(1)
+stack.push("sta")
+stack.push(2)
+stack.push(2.5)
+stack.push("sta")
+print(stack.counter_int())
