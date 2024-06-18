@@ -1,6 +1,3 @@
-import copy
-
-
 class Node:
     def __init__(self, data, next_node=None):
         self.data = data
@@ -9,37 +6,56 @@ class Node:
 
 class Stack:
     def __init__(self, stack_size=5, top=None):
-        self.top = top
         self.stack_size = stack_size
-        self.counter = 0
+        self.top = top  # через топ обращаемся к атрибутам ноды
 
     def push(self, data):
-        if self.counter < self.stack_size:
+        if self.size_stack() < self.stack_size:
             new_node = Node(data)
-            new_node.next_node = self.top
-            self.top = new_node
-            self.counter += 1
+            new_node.next_node = self.top  # та вершина которая была
+            self.top = new_node  # переназначаем вершину
         else:
-            print("Stack is Full")
-            return "Stack is Full"
+            print("Стэк переполнен")
+            return "Стэк переполнен"
 
     def pop(self):
-        remove_last = self.top
-        self.top = self.top.next_node
-        self.counter -= 1
-        return remove_last.data
+        if self.top:
+            remove_last = self.top
+            self.top = self.top.next_node
+            return remove_last.data
+        else:
+            return "Стэк пуст"
 
-    @staticmethod
-    def counter_int(stack):
-        temp_stack = copy.deepcopy(stack)
-        counter = 0
-        while not temp_stack.is_stack_empty():
-            if isinstance(temp_stack.top.data, int):
-                counter += 1
-            temp_stack.pop()
-        return counter
-
-    def is_stack_empty(self):
-        if self.top is None:
+    def is_empty(self):
+        if self.top:
+            return False
+        else:
             return True
-        return False
+
+    def is_full(self):
+        if self.stack_size == self.size_stack():
+            return True
+        else:
+            return False
+
+    def clear_stack(self):
+        while self.top:
+            self.pop()
+
+    def get_data(self, index):
+        counter = 0
+        stack_item = self.top
+        while stack_item:
+            if counter == index:
+                return stack_item.data
+            stack_item = stack_item.next_node
+            counter += 1
+        return f"Out of range"
+
+    def size_stack(self):
+        counter = 0
+        stack_item = self.top
+        while stack_item:
+            counter += 1
+            stack_item = stack_item.next_node
+        return counter
